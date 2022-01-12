@@ -2,7 +2,10 @@ import express from 'express';
 const app = express();
 const port = 9000;
 
-app.get('/', (req, res) => res.send('Shack Shop!'));
+const one = 1;
+const two = 2;
+
+app.get('/', (_req, res) => res.send(`Shack Shop! 1 + 2 = ${one + two}`));
 
 app.listen(port);
 
