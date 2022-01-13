@@ -1,11 +1,30 @@
 import express from 'express';
+import { listings } from './listings';
+
 const app = express();
 const port = 9000;
 
-const one = 1;
-const two = 2;
+// replacement for using bodyParser - now included in express
+// app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-app.get('/', (_req, res) => res.send(`Shack Shop! 1 + 2 = ${one + two}`));
+// returns all listings
+app.get('/listings', (_req, res) => {
+	return res.send(listings);
+});
+
+// removes a listing
+app.post('/delete-listing', (req, res) => {
+	const reqId: string = req.body.id;
+
+	for (let i = 0; i < listings.length; i++) {
+		if (listings[i].id === reqId) {
+			return res.send(listings.splice(i, 1));
+		}
+	}
+	// if no id found
+	return res.send('failed to find and delete listing');
+});
 
 app.listen(port);
 
