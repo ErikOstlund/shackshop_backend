@@ -8,6 +8,7 @@
 		"url": "https://github.com/ErikOstlund/shackshop_backend"
 	},
 	"dependencies": {
+		"apollo-server-core": "^3.6.3",
 		"apollo-server-express": "^3.6.3",
 		"express": "^4.17.1",
 		"graphql": "^16.3.0"

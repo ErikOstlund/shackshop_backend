@@ -1,30 +1,26 @@
 import express from 'express';
-import { listings } from './listings';
+import { ApolloServer } from 'apollo-server-express';
+import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
+import { schema } from './graphql';
 
+// Express
 const app = express();
 const port = 9000;
 
-// replacement for using bodyParser - now included in express
-// app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-// returns all listings
-app.get('/listings', (_req, res) => {
-	return res.send(listings);
+// Apollo
+const server = new ApolloServer({
+	schema,
+	plugins: [ApolloServerPluginLandingPageGraphQLPlayground]
 });
 
-// removes a listing
-app.post('/delete-listing', (req, res) => {
-	const reqId: string = req.body.id;
+// Need startServer() for apollo-server-express 3.x
+const startServer = async () => {
+	await server.start();
+	// pass in the express app and the endpoint for where our GraphQL API should live.
+	server.applyMiddleware({ app, path: '/api' });
+};
 
-	for (let i = 0; i < listings.length; i++) {
-		if (listings[i].id === reqId) {
-			return res.send(listings.splice(i, 1));
-		}
-	}
-	// if no id found
-	return res.send('failed to find and delete listing');
-});
+startServer();
 
 app.listen(port);
 
