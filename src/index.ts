@@ -1,7 +1,7 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
-import { schema } from './graphql';
+import { typeDefs, resolvers } from './graphql';
 
 // Express
 const app = express();
@@ -9,7 +9,8 @@ const port = 9000;
 
 // Apollo
 const server = new ApolloServer({
-	schema,
+	typeDefs,
+	resolvers,
 	plugins: [ApolloServerPluginLandingPageGraphQLPlayground]
 });
 
